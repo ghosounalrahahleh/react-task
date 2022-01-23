@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 
 const About = () => {
   return (
-    <div className="team">
+    <div className="content">
       <ul>
         <NavLink to="team"> OurTeam</NavLink>
       </ul>

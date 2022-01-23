@@ -6,29 +6,36 @@ class Register extends Component {
     this.state = {
       firstName: "",
       lastName: "",
-      fullName: "",
       email: "",
-      dispalyEmail: "",
       password: "",
       errors: {},
       users: {},
-      userCount: 0,
     };
   }
 
   render() {
     return (
-      <div className="registerForm">
+      <div className="content">
         <div className="welcome">
           <h5>
-            welcome <span>{this.state.fullName} </span>
+            welcome{" "}
+            <span>
+              {localStorage.getItem("currentUser")
+                ? localStorage.getItem("currentUser")
+                : ""}{" "}
+            </span>
           </h5>
           <h5>
-            Your Email is : <span>{this.state.dispalyEmail}</span>
+            Your Email is :{" "}
+            <span>
+              {localStorage.getItem("email")
+                ? localStorage.getItem("email")
+                : ""}
+            </span>
           </h5>
         </div>
 
-        <form id="" onSubmit={this.formSubmit}>
+        <form method="post" onSubmit={this.formSubmit} id="form">
           <h4 align="center">Sign Up </h4>
           <div className="input-div">
             <label>First Name </label>
@@ -65,7 +72,13 @@ class Register extends Component {
           </div>
 
           <div className="input-div">
-            <input type="submit" value="Display" id="btn" />
+            <input type="submit" value="Display" className="btn" />
+            <input
+              type="submit"
+              value="Clear"
+              className="btn clear"
+              onClick={this.handleClear}
+            />
           </div>
         </form>
       </div>
@@ -77,6 +90,15 @@ class Register extends Component {
     this.setState({
       [name]: e.target.value,
     });
+  };
+
+  handleClear = (event) => {
+    let userArray = JSON.parse(localStorage.getItem("myUsers"));
+    let users = userArray;
+    users.pop();
+    localStorage.setItem("myUsers", JSON.stringify(users));
+    document.querySelector(".welcome").style.display = "none";
+    event.preventDefault();
   };
 
   formSubmit = (event) => {
@@ -119,27 +141,36 @@ class Register extends Component {
     event.preventDefault();
 
     if (isValid === true) {
-      this.setState({
-        fullName: this.state.firstName + " " + this.state.lastName,
-        dispalyEmail: this.state.email,
-      });
-      document.querySelector('.welcome').style.display ="block";
+      //save user info in array to push it into the userArray in localStorage
+      var currentUser = {
+        firstName: this.state.firstName,
+        lastName: this.state.lastName,
+        email: this.state.email,
+        password: this.state.password,
+      };
+      //concatenate the first name and last name then save it in variable
+      //in localStorage for the current user
+      localStorage.setItem(
+        "currentUser",
+        this.state.firstName + " " + this.state.lastName
+      );
+      //save email
+      localStorage.setItem("email", this.state.email);
+
+      //check if user array(myUsers)  exists to retrieve it then push the current user else just creat it
+      if (JSON.parse(localStorage.getItem("myUsers") !== null)) {
+        let userArray = JSON.parse(localStorage.getItem("myUsers"));
+        let users = userArray;
+        users.push(currentUser);
+        localStorage.setItem("myUsers", JSON.stringify(users));
+        //change styles
+        document.querySelector(".welcome").style.display = "block";
+        document.querySelector(".welcome").style.boxShadow =
+          "-1px 2px 20px 0px #8FD20C";
+      } else {
+        localStorage.setItem("myUsers", JSON.stringify(currentUser));
+      }
     }
-
-    //  else {
-
-    //save data in localStorage
-    //   var currentUser = {
-    //     userName: this.state.userName,
-    //     email: this.state.email,
-    //     password: this.state.password,
-    //   };
-    //   let userArray = JSON.parse(localStorage.getItem("myUsers"));
-    //   let users = userArray;
-    //   users.push(currentUser);
-    //   localStorage.setItem("myUsers", JSON.stringify(users));
-    //
-    // }
   };
 }
 

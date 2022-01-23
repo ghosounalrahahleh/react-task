@@ -15,15 +15,16 @@ body {
         '. signUp .';
 }
 
-.registerForm {
+.content {
     grid-area: signUp;
 }
 
-.registerForm form, .welcome{
+.content form, .welcome{
     background-color: white;
     margin: 50px 0;
     padding: 20px;
     border-radius: 15px;
+   
 }
 
 .nav-bar {
@@ -80,11 +81,12 @@ p {
 }
 .input-div input{
     width: 100%;
+    padding:3px 5px;
 }
 small {
     color: red;
 }
-#btn{
+.btn{
   background-color: #aa5533;
   color: white;  
   padding: 5px;
@@ -94,7 +96,7 @@ small {
   transform:   translateY(0) scale(1);
   transition: all .3s ;
 }
-#btn:hover{
+.btn:hover{
     transform:  translateY(-5px) scale(1.02);
     background-color: wheat;
     color: #aa5533 ;
@@ -109,4 +111,17 @@ h5 span{
     background-color: white;
     margin-top: 50px;
     display: none;
+}
+@media(max-width: 769px){
+    .grid {
+        
+        grid-template-areas:
+            'navBar'
+            'signUp ';
+    }
+
+   .content{
+       width: 80%;
+       margin: auto;
+   }
 }

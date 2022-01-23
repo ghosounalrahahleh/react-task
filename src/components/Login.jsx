@@ -13,7 +13,7 @@ class Login extends Component {
 
   render() {
     return (
-      <div>
+      <div className="content">
         <small>{this.state.errors["notExist"]}</small>
         <form id="" onSubmit={this.formSubmit}>
           <div className="input-div">
